@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles.css';
 
 // Can only return one element: eg. one pair of div
-export default function Header(){
+export function Header(){
     return(
         <div className='header'>
             <img className='logo' src='logo.png' alt='logo moviedux' />
