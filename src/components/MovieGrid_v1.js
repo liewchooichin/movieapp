@@ -1,7 +1,6 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
 import '../styles.css';
-import { MovieCard } from './MovieCard';
 
 /* Using State in this lesson */
 export function MoviesGrid(){
@@ -34,7 +33,14 @@ export function MoviesGrid(){
             {
                 movies.map((m) => {
                     return(
-                        <MovieCard m={m} key={m.id}></MovieCard>
+                    <div key={m.id} className='movie-card'>
+                        <img src={`images/${m.image}`} alt={m.title}></img>
+                        <div className='movie-card-info'>
+                            <h3 className='movie-card-title'>{m.title}</h3>
+                            <p className='movie-card-genre'>{m.genre}</p>
+                            <p className='movie-card-rating'>{m.rating}</p>
+                        </div>
+                    </div>
                 )})
             }
         </div>
