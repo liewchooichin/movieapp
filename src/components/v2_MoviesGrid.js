@@ -8,6 +8,7 @@ export function MoviesGrid(){
     /* Movies state */
     const [movies, setMovies] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+
     /* Fetch movies */
     async function fetchMovies(){
         const response = await fetch("movies.json");
@@ -28,34 +29,15 @@ export function MoviesGrid(){
        //setMovies(fetchMovies());
     }, []);
 
-    /* Searching function */
-    function handleSearchChange(event){
-        // value of the search input
-        setSearchTerm(event.target.value);
-        console.log(event.target.value);
-    }
-    /* Filter movies according to the search term */
-    const filteredMovies = movies.filter( 
-        (m) => m.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    /* Return the component */
     return(
-        <div>
-            <input
-                type="text" placeholder='Search'
-                value={searchTerm}
-                onChange={handleSearchChange}
-                className='search-input'
-            />
             <div className='movies-grid'>
                 <h2>Number of movies: {movies.length}</h2>
                 {
-                    filteredMovies.map((m) => {
+                    movies.map((m) => {
                         return(
                             <MovieCard m={m} key={m.id}></MovieCard>
                     )})
                 }
             </div>
-        </div>
     );
 }
