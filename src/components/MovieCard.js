@@ -7,7 +7,7 @@ import '../styles.css';
  * @returns 
  */
 
-export function MovieCard({m}) {
+export function MovieCard({movie, key, isWatchlisted, toggleWatchlist}) {
 
     /* Error handling */
     function handleError(e) {
@@ -28,18 +28,32 @@ export function MovieCard({m}) {
     }
     /* Return the components */
     return(
-        <div key={m.id} className='movie-card'>
-            <img src={`images/${m.image}`} 
-                alt={m.title}
+        <div key={movie.id} className='movie-card'>
+            <img src={`images/${movie.image}`} 
+                alt={movie.title}
                 onError={handleError}>
             </img>
             <div className='movie-card-info'>
-                <h3 className='movie-card-title'>{m.title}</h3>
-                <p className='movie-card-genre'>{m.genre}</p>
-                <p className={`movie-card-rating 
-                        ${getRatingClass(m.rating)}`}>
-                    {m.rating}
-                </p>
+                <h3 className='movie-card-title'>{movie.title}</h3>
+                <div>
+                    <span className='movie-card-genre'>{movie.genre}</span>
+                    <span className={`movie-card-rating 
+                            ${getRatingClass(movie.rating)}`}>
+                        {movie.rating}
+                    </span>
+                </div>
+                <label className="switch">
+                    <input 
+                        type="checkbox" 
+                        checked={isWatchlisted}
+                        onChange={() => toggleWatchlist(movie.id)}
+                    ></input>
+                    <span className="slider">
+                        <span className="slider-label">
+                            {isWatchlisted ? "In Watchlist" : "Add to Watchlist"}
+                        </span>
+                    </span>
+                </label>
             </div>
         </div>
     )

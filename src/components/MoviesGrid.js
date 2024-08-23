@@ -1,35 +1,14 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import '../styles.css';
 import { MovieCard } from './MovieCard';
 
 /* Using State in this lesson */
-export function MoviesGrid(){
-    /* Movies state */
-    const [movies, setMovies] = useState([]);
+export function MoviesGrid({movies, watchlist, toggleWatchlist}){
+    /* States */
     const [searchTerm, setSearchTerm] = useState("");
     const [genre, setGenre] = useState("All genres");
     const [rating, setRating] = useState("All ratings");
-
-    /* Fetch movies */
-    async function fetchMovies(){
-        const response = await fetch("movies.json");
-        const movies_obj = await response.json();
-        return movies_obj.data;
-    }
-
-    /* initial the state */
-    /* setMovies will set the length of the movies
-    const [movies, setMovies] = useState([]);
-    /* useEffect [] only once */
-    useEffect(() => {
-        /* The Public folder does not have to be specified here. */
-        fetch("movies.json")
-        .then(response => response.json())
-        .then(data => setMovies(data))
-        
-       //setMovies(fetchMovies());
-    }, []);
 
     /* Searching function */
     function handleSearchChange(event){
@@ -72,16 +51,13 @@ export function MoviesGrid(){
     }
     /* Filter movies according to the search term */
     /* Return an array of filtered movies */
-    //const filteredMovies = movies.filter( 
-    function filteredMovies () {
-        return movies.filter(
-            (m) => matchesGenre(m, genre) &&
-                    matchesRating(m, rating) &&
-                    matchesSearchTerm(m, searchTerm) 
-        );
-    //);
-    }
-    
+    const filteredMovies = movies.filter( 
+        (m) =>
+            matchesGenre(m, genre) &&
+            matchesRating(m, rating) &&
+            matchesSearchTerm(m, searchTerm) 
+    );
+
     /* Return the component */
     return(
         <div>
@@ -120,11 +96,15 @@ export function MoviesGrid(){
             <div className='movies-grid'>
                 <h2>Number of movies: {movies.length}</h2>
                 {
-                    /* If array is used, use this line */
-                    // filteredMovies.map(m) => {
-                    filteredMovies().map((m) => {
+                    /* This is an array */
+                    filteredMovies.map((movie) => {
                         return(
-                            <MovieCard m={m} key={m.id}></MovieCard>
+                            <MovieCard 
+                            movie={movie} 
+                                key={movie.id} 
+                                isWatchlisted={watchlist.includes(movie.id)}
+                                toggleWatchlist={toggleWatchlist}
+                            ></MovieCard>
                     )})
                 }
             </div>
